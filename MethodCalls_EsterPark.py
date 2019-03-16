@@ -7,6 +7,7 @@ get_ipython().magic('matplotlib inline')
 fname = 'vgsales.csv'
 x1 = pd.read_csv(fname)
 """
+author: ester park
 tried my best to use all style asserts like docstrings and parameter descriptions. 
 used concepts covered in class for parsing the dataframes. 
 mainly, functions, loops, classes, dictionaries, tuples, zips, lambda, 
