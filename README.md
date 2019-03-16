@@ -23,7 +23,7 @@ Yichen Zhang Ester Park)
 Yichen Zhang Ester Park)
 
 # How to read:
-Data visulization are on 
+Data visulization are on <br/>
 EsterPark.ipynb <br/>
 BinglinZhao.ipynb <br/>
 Yichen.ipynb <br/>
