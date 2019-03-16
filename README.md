@@ -24,8 +24,8 @@ Yichen Zhang Ester Park)
 
 # How to read:
 Data visulization are on 
-EsterPark.ipynb
-BinglinZhao.ipynb 
-Yichen.ipynb
-jiawei.ipynb
+EsterPark.ipynb <br/>
+BinglinZhao.ipynb <br/>
+Yichen.ipynb <br/>
+jiawei.ipynb <br/>
 All functions are in .py files.
