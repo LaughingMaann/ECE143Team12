@@ -21,3 +21,6 @@ Yichen Zhang Ester Park)
 Yichen Zhang Ester Park)
 4. Presentation slides	One week	(Binglin Zhao Jiawei Song
 Yichen Zhang Ester Park)
+
+# How to read:
+Data visulization are on 
