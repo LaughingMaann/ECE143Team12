@@ -13,35 +13,45 @@ mainly, functions, loops, classes, dictionaries, tuples, zips, lambda,
 list comprehension, conditionals/if-elif, numpy, various library usages 
 (math, matplotlib), collections defaultdict
 """
+
+
 class Strategies(object):
-    """
-    author: ester park
-    similar to our intervals hw7, i created a class that will accept
-    a singular object that will be the dataframe dataset called x1
-    return *this, will return self and output a scatter plot of 
-    revenue in millions ($ USD million) vs. time (year)
-    """
-    def __init__(self,x1):
-        """
-        this will count() method will take in x1 which was the csv file given in week8 (not the new one)
-        is has to parse the following series columns in order to project sales vs year
-        Rank	Name	Platform	Year	Genre	Publisher	NA_Sales	EU_Sales	JP_Sales	Other_Sales	Global_Sales
-        """
+    
+    def __init__(self, x1): 
         assert isinstance(x1, pd.core.frame.DataFrame)
         assert 'Year' in x1
         
-        yr = x1['Year']
-        years = np.unique(x1['Year'][~np.isnan(x1['Year'])]).astype(int)
+        self.x1 = x1
+        
+    """
+    author: ester park
+    similar to our intervals hw7, i created a class that will accept
+    a singular object that will be the dataframe dataset called self.x1
+    return *this, will return self and output a scatter plot of 
+    revenue in millions ($ USD million) vs. time (year)
+    """
+    def strategy1(self):
+        """
+        this will count() method will take in self.x1 which was the csv file given in week8 
+        (not the new one)
+        is has to parse the following series columns in order to project sales vs year
+        Rank	Name	Platform	Year	Genre	Publisher	NA_Sales	EU_Sales	
+        JP_Sales	Other_Sales	Global_Sales
+        """
+        
+        
+        yr = self.x1['Year']
+        years = np.unique(self.x1['Year'][~np.isnan(self.x1['Year'])]).astype(int)
         NA_Sales = []
         EU_Sales = []
         JP_Sales = []
         Other_Sales = []
 
         for y in years: 
-            NA_Sales.append(np.sum(x1[x1['Year'] == y]['NA_Sales']))
-            EU_Sales.append(np.sum(x1[x1['Year'] == y]['EU_Sales']))
-            JP_Sales.append(np.sum(x1[x1['Year'] == y]['JP_Sales']))
-            Other_Sales.append(np.sum(x1[x1['Year'] == y]['Other_Sales']))
+            NA_Sales.append(np.sum(self.x1[self.x1['Year'] == y]['NA_Sales']))
+            EU_Sales.append(np.sum(self.x1[self.x1['Year'] == y]['EU_Sales']))
+            JP_Sales.append(np.sum(self.x1[self.x1['Year'] == y]['JP_Sales']))
+            Other_Sales.append(np.sum(self.x1[self.x1['Year'] == y]['Other_Sales']))
 
         plt.figure(figsize=(10,5))
         xaxis = range(len(years))
@@ -56,23 +66,24 @@ class Strategies(object):
         a= plt.show()
         return a
     
-class Strategies1(object):
+
     """
     author: ester park
     similar to our intervals hw7, i created a class that will accept
-    a singular object that will be the dataframe dataset called x1
+    a singular object that will be the dataframe dataset called self.x1
     return *this, will return plot of total revenue vs. number of games sold per company
     this explains the strategy for whether or not a company should invest their efforts
     in creating as many games as possible or specialize
     """
-    def __init__(self, x1):
+    def strategy2(self):
         """
         y axis = revenue in $usd millions
         x axis = number of games sold
-        this function will take that same csv file and plot total revenue vs. number of games sold per company
-        the blue dots represent the other comapnies that are part of the lower half of the outliers
+        this function will take that same csv file and plot total revenue vs. number of 
+        games sold per company the blue dots represent the other comapnies that are 
+        part of the lower half of the outliers
         """
-        publishers = x1.Publisher.unique()
+        publishers = self.x1.Publisher.unique()
 
         data = []
 
@@ -82,8 +93,8 @@ class Strategies1(object):
         max_games_pub = ''
         max_games = 0
         for pub in publishers: 
-            x = len(x1[x1['Publisher']==pub])
-            y = np.sum(x1[x1['Publisher']==pub]['Global_Sales'])
+            x = len(self.x1[self.x1['Publisher']==pub])
+            y = np.sum(self.x1[self.x1['Publisher']==pub]['Global_Sales'])
 
             data.append((x,y, pub))
 
@@ -107,25 +118,23 @@ class Strategies1(object):
         plt.grid(True)
         return plt.show()
     
-class Strategies2(object):
-    """
-    author: ester park
-    """
-    def __init__(self, x1): 
+
+    def strategy3(self): 
         """
         y axis = Revenue
         x axis = number of games sold
-        this function will take that same csv file and plot total revenue vs. number of games sold per company
-        however, we also want all the dots, such that ea dot represents the number of games sold that year
+        this function will take that same csv file and plot total revenue vs. number 
+        of games sold per company however, we also want all the dots, 
+        such that ea dot represents the number of games sold that year
         """
-        publishers = x1.Publisher.unique()
+        publishers = self.x1.Publisher.unique()
 
         data = []
 
 
         for pub in publishers: 
-            x = len(x1[x1['Publisher']==pub])
-            y = np.sum(x1[x1['Publisher']==pub]['Global_Sales'])
+            x = len(self.x1[self.x1['Publisher']==pub])
+            y = np.sum(self.x1[self.x1['Publisher']==pub]['Global_Sales'])
 
             data.append((x,y, pub))
 
@@ -135,14 +144,14 @@ class Strategies2(object):
         top_10 = [d[2] for d in data[:10]]
 
 
-        years = np.unique(x1['Year'][~np.isnan(x1['Year'])]).astype(int)
+        years = np.unique(self.x1['Year'][~np.isnan(self.x1['Year'])]).astype(int)
 
         publisher_data = {}
         for p in top_10: 
             publisher_data[p] = []
             for yr in years: 
-                x = len(x1[(x1['Publisher']==p) & (x1['Year']==yr)])
-                y = np.sum(x1[(x1['Publisher']==p) & ( x1['Year']==yr)]['Global_Sales'])
+                x = len(self.x1[(self.x1['Publisher']==p) & (self.x1['Year']==yr)])
+                y = np.sum(self.x1[(self.x1['Publisher']==p) & ( self.x1['Year']==yr)]['Global_Sales'])
                 publisher_data[p].append((x,y))
 
 
@@ -157,7 +166,7 @@ class Strategies2(object):
         plt.grid(True)
         return plt.show()
     
-class Strategies3(object):
+
     """
     author: ester park
     will create a bar chart for each top 10 companies, what their avg revenue per year is
@@ -165,15 +174,15 @@ class Strategies3(object):
     that on a yearly rate, they dont make the same rate as the other ones on avg
     which can be hurtful for quarterly investments/dividends
     """
-    def __init__(self, x1): 
-        publishers = x1.Publisher.unique()
+    def strategy4(self): 
+        publishers = self.x1.Publisher.unique()
 
         data = []
 
 
         for pub in publishers: 
-            x = len(x1[x1['Publisher']==pub])
-            y = np.sum(x1[x1['Publisher']==pub]['Global_Sales'])
+            x = len(self.x1[self.x1['Publisher']==pub])
+            y = np.sum(self.x1[self.x1['Publisher']==pub]['Global_Sales'])
 
             data.append((x,y, pub))
 
@@ -183,14 +192,14 @@ class Strategies3(object):
         top_10 = [d[2] for d in data[:10]]
 
 
-        years = np.unique(x1['Year'][~np.isnan(x1['Year'])]).astype(int)
+        years = np.unique(self.x1['Year'][~np.isnan(self.x1['Year'])]).astype(int)
 
         publisher_data = {}
         for p in top_10: 
             publisher_data[p] = []
             for yr in years: 
-                #x = len(x1[(x1['Publisher']==p) & (x1['Year']==yr)])
-                yearly_revenue = np.sum(x1[(x1['Publisher']==p) & ( x1['Year']==yr)]['Global_Sales'])
+                #x = len(self.x1[(self.x1['Publisher']==p) & (self.x1['Year']==yr)])
+                yearly_revenue = np.sum(self.x1[(self.x1['Publisher']==p) & ( self.x1['Year']==yr)]['Global_Sales'])
                 publisher_data[p].append(yearly_revenue)
 
         data = [publisher_data[p] for p in top_10]
@@ -203,57 +212,7 @@ class Strategies3(object):
         plt.title('Yearly Global Revenue for Top 10 Companies')
         return plt.show()
 
-class Strategies4(object):
-    """
-    author: ester park
-    this was a radar chart example that i used from 
-    https://python-graph-gallery.com/390-basic-radar-chart/
-    https://www.kaggle.com/typewind/draw-a-radar-chart-with-python-in-a-simple-way
-    just testing it out here
-    """
-    def __init__(self, x1):
-        df = pd.DataFrame({
-        'group': ['A','B','C','D'],
-        'var1': [38, 1.5, 30, 4],
-        'var2': [29, 10, 9, 34],
-        'var3': [8, 39, 23, 24],
-        'var4': [7, 31, 33, 14],
-        'var5': [28, 15, 32, 14]
-        })
 
-        # number of variable
-        categories=list(df)[1:]
-        N = len(categories)
-
-        # We are going to plot the first line of the data frame.
-        # But we need to repeat the first value to close the circular graph:
-        values=df.loc[0].drop('group').values.flatten().tolist()
-        values += values[:1]
-        values
-
-        # What will be the angle of each axis in the plot? (we divide the plot / number of variable)
-        angles = [n / float(N) * 2 * pi for n in range(N)]
-        angles += angles[:1]
-
-        # Initialise the spider plot
-        ax = plt.subplot(111, polar=True)
-
-        # Draw one axe per variable + add labels labels yet
-        plt.xticks(angles[:-1], categories, color='grey', size=8)
-
-        # Draw ylabels
-        ax.set_rlabel_position(0)
-        plt.yticks([10,20,30], ["10","20","30"], color="grey", size=7)
-        plt.ylim(0,40)
-
-        # Plot data
-        ax.plot(angles, values, linewidth=1, linestyle='solid')
-
-        # Fill area
-        ax.fill(angles, values, 'b', alpha=0.1)
-        return plt.show()
-    
-class Strategies5(object):
     """
     author: ester park
     now for the actual radar, i want to add the data frames into the areas
@@ -261,26 +220,29 @@ class Strategies5(object):
     https://www.kaggle.com/typewind/draw-a-radar-chart-with-python-in-a-simple-way
     just testing it out here
     """
-    def __init__(self, x1):
-        assert isinstance(x1, pd.core.frame.DataFrame)
-        assert 'Year' in x1
+    def strategy5(self):
+        assert isinstance(self.x1, pd.core.frame.DataFrame)
+        assert 'Year' in self.x1
 
         #need a dictionary key pair for the various game consoles and their number of games sold
-        platforms = np.unique(x1['Platform'])
-        genres = np.unique(x1['Genre'])
+        platforms = np.unique(self.x1['Platform'])
+        genres = np.unique(self.x1['Genre'])
         platform_genres_rev = {}
         plt_counts = []
         for p in platforms: 
-            count = len(x1[x1['Platform'] == p])
+            count = len(self.x1[self.x1['Platform'] == p])
             #print('{} = {}'.format(p, count))
             plt_counts.append((p, count))
             platform_genres_rev[p] = []
             for g in genres: 
-                rev = np.sum(x1[(x1['Platform'] == p) & (x1['Genre'] == g)]['Global_Sales'])
+                rev = np.sum(self.x1[(self.x1['Platform'] == p) & (self.x1['Genre'] == g)]['Global_Sales'])
                 platform_genres_rev[p].append(rev)
         plt_counts.sort(key= lambda tup:tup[1], reverse=True)
-        print(plt_counts)
-        print(platform_genres_rev['DS'])
+        print("Top platforms by number of games:")
+        for i, (p, c) in enumerate(plt_counts): 
+            print("{}. {}, count = {}".format(i+1, p, c))
+        
+        #print(platform_genres_rev['DS'])
         
         
         platform_revs = []
@@ -288,13 +250,15 @@ class Strategies5(object):
             platform_revs.append((pl,np.sum(revs)))
     
         platform_revs.sort(key = lambda tup:tup[1], reverse=True)
-        print(platform_revs)
-        
+        print("\nTop platforms by revenue:")
+        for i, (p,r) in enumerate(platform_revs): 
+            print("{}. {}, revenue = ${:7.2f} million".format(i+1, p, r))
+            
         # ------- PART 1: Create background
         # number of games sold radar chart
         # number of variable
         #categories=list(df)[1:]
-        categories = np.unique(x1['Genre'])
+        categories = np.unique(self.x1['Genre'])
         N = len(categories)
 
         # What will be the angle of each axis in the plot? (we divide the plot / number of variable)
@@ -357,7 +321,7 @@ class Strategies5(object):
         # num games sold 4-6 radar
         # number of variable
         #categories=list(df)[1:]
-        categories = np.unique(x1['Genre'])
+        categories = np.unique(self.x1['Genre'])
         N = len(categories)
 
         # What will be the angle of each axis in the plot? (we divide the plot / number of variable)
@@ -420,7 +384,7 @@ class Strategies5(object):
          #num games sold 7-9/genre
         # number of variable
         #categories=list(df)[1:]
-        categories = np.unique(x1['Genre'])
+        categories = np.unique(self.x1['Genre'])
         N = len(categories)
 
         # What will be the angle of each axis in the plot? (we divide the plot / number of variable)
@@ -480,7 +444,7 @@ class Strategies5(object):
 
         # number of variable
         #categories=list(df)[1:]
-        categories = np.unique(x1['Genre'])
+        categories = np.unique(self.x1['Genre'])
         N = len(categories)
 
         # What will be the angle of each axis in the plot? (we divide the plot / number of variable)
@@ -542,7 +506,7 @@ class Strategies5(object):
         #amt of sales/genre/platform
         # number of variable
         #categories=list(df)[1:]
-        categories = np.unique(x1['Genre'])
+        categories = np.unique(self.x1['Genre'])
         N = len(categories)
 
         # What will be the angle of each axis in the plot? (we divide the plot / number of variable)
@@ -605,7 +569,7 @@ class Strategies5(object):
          #amt of sales/genre/platform
         # number of variable
         #categories=list(df)[1:]
-        categories = np.unique(x1['Genre'])
+        categories = np.unique(self.x1['Genre'])
         N = len(categories)
 
         # What will be the angle of each axis in the plot? (we divide the plot / number of variable)
@@ -662,12 +626,3 @@ class Strategies5(object):
         plt.title("Top 7-9 by sales", y=1.08)
 
         return plt.show()
-
-    
-
-    Strategies(x1)
-    Strategies1(x1)
-    Strategies2(x1)
-    Strategies3(x1)
-    Strategies4(x1)
-    Strategies5(x1)
